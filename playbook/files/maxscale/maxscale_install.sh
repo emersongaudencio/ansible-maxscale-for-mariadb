@@ -6,7 +6,6 @@ if [[ $verify_maxscale == "maxscale"* ]]
 then
 echo "$verify_maxscale is installed!"
 else
-   ### PG Repo #####
    ##### FIREWALLD DISABLE #########################
    systemctl disable firewalld
    systemctl stop firewalld
@@ -32,6 +31,7 @@ else
    ### install pre-packages ####
    yum -y install screen nload bmon openssl libaio rsync snappy net-tools wget nmap htop dstat sysstat
 
+   ### MaxScale Setep ####
    curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
    yum -y install maxscale
 
