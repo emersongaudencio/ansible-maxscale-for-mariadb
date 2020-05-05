@@ -1,0 +1,32 @@
+---
+- name: MaxScale Setup
+  gather_facts: false
+  hosts: all
+  tasks:
+     - name: Transfering MaxScale install script
+       copy: src=maxscale/maxscale_install.sh dest=/tmp mode=0777
+
+     - name: Transfering MaxScale configuration script
+       copy: src=maxscale/maxscale_config.sh dest=/tmp mode=0777
+
+     - name: Running MaxScale install script
+       command: "sh /tmp/maxscale_install.sh"
+       register: cmd_install
+     - debug: msg="{{ cmd_install.stdout_lines|replace('\\t',' ') }}"
+     - debug: msg="{{ cmd_install.stderr_lines|replace('\\t',' ') }}"
+
+     - name: Running MaxScale configuration script
+       command: "sh /tmp/maxscale_config.sh"
+       register: cmd_config
+     - debug: msg="{{ cmd_config.stdout_lines|replace('\\t',' ') }}"
+     - debug: msg="{{ cmd_config.stderr_lines|replace('\\t',' ') }}"
+
+     - name: Removing - MaxScale install script
+       file:
+         path: /tmp/maxscale_install.sh
+         state: absent
+
+     - name: Removing - MaxScale configuration script
+       file:
+         path: /tmp/maxscale_config.sh
+         state: absent
