@@ -16,7 +16,7 @@
      - debug: msg="{{ cmd_install.stderr_lines|replace('\\t',' ') }}"
 
      - name: Running MaxScale configuration script
-       command: "sh /tmp/maxscale_config.sh"
+       command: "sh /tmp/maxscale_config.sh {{ mx_mode }}  {{ maxscale_user }}  {{ maxscale_pass }} {{ monitor_user }} {{ monitor_pass }} {{ primary }} {{ backup }}"
        register: cmd_config
      - debug: msg="{{ cmd_config.stdout_lines|replace('\\t',' ') }}"
      - debug: msg="{{ cmd_config.stderr_lines|replace('\\t',' ') }}"
