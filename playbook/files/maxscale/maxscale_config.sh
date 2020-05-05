@@ -111,8 +111,8 @@ type=server
 address=$MASTER_ADDRESS
 port=3306
 protocol=MariaDBBackend
-
 $REPLICAS_SERVERS
+
 [$MONITOR_NAME]
 type=monitor
 module=mariadbmon
