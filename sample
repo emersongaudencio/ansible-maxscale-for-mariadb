@@ -26,6 +26,10 @@ GRANT SELECT ON mysql.* TO 'maxscale'@'%';
 CREATE USER 'maxscalechk'@'%' IDENTIFIED BY 'YOURPASSWORD'; GRANT SELECT ON mysql.* TO 'maxscalechk'@'%'; GRANT SHOW DATABASES ON *.* TO 'maxscalechk'@'%';
 CREATE USER 'monitor_user'@'%' IDENTIFIED BY 'YOURPASSWORD'; GRANT SUPER, RELOAD, REPLICATION CLIENT, REPLICATION SLAVE on *.* to 'monitor_user'@'%';
 
+-- config replication --
+RESET SLAVE ALL; RESET MASTER; SET GLOBAL gtid_slave_pos = "9403-17052-366315,25677-25733-764587"; CHANGE MASTER TO master_host="10.154.0.63", master_port=3306, master_user="monitor_user", master_password = "Test123?dba", master_use_gtid=CURRENT_POS; START SLAVE; SHOW SLAVE STATUS\G
+
+
 -- create user for testing haproxy --
 grant all on sbtest.* to 'app_user'@'%' identified by 'test123';
 
