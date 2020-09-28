@@ -68,6 +68,9 @@ password=$MAXSCALE_PASS
 use_sql_variables_in=master
 slave_selection_criteria=LEAST_CURRENT_OPERATIONS
 max_slave_connections=100%
+causal_reads=true
+transaction_replay=true
+filters=MyCache
 
 [RW-Listener]
 type=listener
@@ -87,6 +90,7 @@ router=readconnroute
 user=$MAXSCALE_USER
 password=$MAXSCALE_PASS
 router_options=master
+filters=MyCache
 
 [Write-Listener]
 type=listener
@@ -105,6 +109,15 @@ log_info                    = false
 ms_timestamp                = 1
 admin_host                  = 0.0.0.0
 admin_port                  = 8989
+
+[MyCache]
+type=filter
+module=cache
+storage=storage_inmemory
+soft_ttl=30
+hard_ttl=45
+cached_data=shared
+max_size=1024Mi
 
 [db1-live.a]
 type=server
@@ -133,6 +146,7 @@ router=readconnroute
 user=$MAXSCALE_USER
 password=$MAXSCALE_PASS
 router_options=slave
+filters=MyCache
 
 [RO-Listener]
 type=listener
